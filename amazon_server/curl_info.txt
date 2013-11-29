@@ -1,0 +1,5 @@
+
+How to copy a file from a http server
+# curl -u name:passwd http://machine.domain/full/path/to/file
+e.g.
+# curl http://10.0.0.6/test_curl/test.txt
