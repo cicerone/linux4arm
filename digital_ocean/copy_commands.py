@@ -18,7 +18,7 @@ for cmd_line in cmd_lines:
 #    print "line number %d", i, email_lines[i]
     cmd_fields = cmd_line.split(":")
    # print "cmd field 3 and 5", cmd_fields[EMAIL_ID_INDEX], email_fields[EMAIL_PSWD_INDEX]
-    dir2copy = "/var/www/mailcam.co/public_html/mail_cam/d"
+    dir2copy = "/var/www/mail_cam/d"
     dir2copy += cmd_fields[EMAIL_ID_INDEX]
     if os.path.isdir(dir2copy) == False:
         os.makedirs(dir2copy)
