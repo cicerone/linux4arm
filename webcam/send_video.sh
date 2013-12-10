@@ -1,5 +1,7 @@
 #!/bin/bash -x
 while true; do
+    rm -f movie_1.mp4
+    rm -f movie_1.avi
     rm -f final_loop.sh
     rm -f email.log
     rm -f info.log
