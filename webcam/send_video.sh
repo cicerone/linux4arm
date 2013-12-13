@@ -12,6 +12,8 @@ while true; do
     chmod 700 final_loop.sh
     ./final_loop.sh
 #FIXME add the right email
-#    mpack -s video movie_1.mp4 cicerone.mihalache@gmail.com
+    mpack -s video movie_1.mp4 cicerone.mihalache@gmail.com
+    #ls -ltr movie_1.mp4 > sample.txt
+    #cat sample.txt >> sample_log.txt
     sleep 10 
 done
