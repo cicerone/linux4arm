@@ -1,9 +1,10 @@
 #!/usr/bin/python
 """
 This program takes two inputs, email.log and password.txt and generates another file named 
-email_checked.log.
+commands.log.
 """
 import fileinput
+
 
 f = open('email.log')
 email_lines = f.readlines()
@@ -12,8 +13,8 @@ f = open('password.txt')
 password_lines = f.readlines()
 f.close()
 
-EMAIL_ID_INDEX = 3
-EMAIL_PSWD_INDEX = 5
+EMAIL_ID_INDEX = 2
+EMAIL_PSWD_INDEX = 4
 PSWD_ID_INDEX = 0
 PSWD_PSWD_INDEX = 1
 

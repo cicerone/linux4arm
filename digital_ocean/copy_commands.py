@@ -11,8 +11,8 @@ f = open('commands.log')
 cmd_lines = f.readlines()
 f.close()
 
-EMAIL_ID_INDEX = 3
-EMAIL_PSWD_INDEX = 5
+EMAIL_ID_INDEX = 2
+EMAIL_PSWD_INDEX = 4
 
 for cmd_line in cmd_lines:
 #    print "line number %d", i, email_lines[i]
