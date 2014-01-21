@@ -15,7 +15,7 @@ last_line = lines[nr_lines - 1]
 print len(last_line)
 print last_line
 
-username = 'abcdefgh'
+username = 'bbcdefgh'
 password = '12345678'
 new_line = last_line[:3] + username + last_line[11:15] + password + last_line[23:]
 print len(new_line)
