@@ -1,0 +1,4 @@
+The main script is get_commands.sh. This script with the help of few python scripts reads the email received from the forms, validates it based on user name and password and save it as info.log file into the home directory of the selected user.
+The script build_one_line_info.py reads the jpg file from the jotform site and extracts the password and username from it. After that generates a file named email.log that contains all the info that is needed for the eventcam.
+The file check_commands.py checks that the current password and username saved in email.log are present in the file password.txt that contains the usernames and passwords sep;arated by colons. If the password and username match then a new file commands.log is created.
+The file copy_commands.py reads the file commands.log and copies it in the home directory of the user with the name info.log.

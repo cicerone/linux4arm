@@ -35,7 +35,7 @@ PERS_SH="/bin/bash"
          #this does the trick to set the proper passwd
          echo "$user:$pass" | chpasswd
          chmod 700 $PERS_HOME"$user"
-         echo -e $user"\t"$pass >> "$LOGFILE"
+         echo -e $user":"$pass":" >> "$LOGFILE"
          echo "The user \"$user\" has been created and has the password: $pass"
       fi
    done

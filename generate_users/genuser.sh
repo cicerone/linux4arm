@@ -35,7 +35,7 @@ PERS_SH="/bin/bash"
          pass=$(passwdgen)
          echo $pass | passwd --stdin $user
          # save user and password in a file
-         echo -e $user"\t"$pass >> "$LOGFILE"
+         echo -e $user":"$pass":" >> "$LOGFILE"
          echo "The user \"$user\" has been created and has the password: $pass"
       fi
    done
