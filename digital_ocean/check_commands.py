@@ -9,7 +9,7 @@ import fileinput
 f = open('email.log')
 email_lines = f.readlines()
 f.close()
-f = open('password.txt')
+f = open('user_pswd.txt')
 password_lines = f.readlines()
 f.close()
 
