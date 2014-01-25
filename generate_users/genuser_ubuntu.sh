@@ -32,6 +32,7 @@ PERS_SH="/bin/bash"
          # Create a new user
          pass=$(/home/roni/user_generation/passwdgen-0.1.2/src/passwdgen)
          /usr/sbin/useradd -d "$PERS_HOME""$user" -s "$PERS_SH" -m "$user"
+         chmod 500 /home/$user
          #this does the trick to set the proper passwd
          echo "$user:$pass" | chpasswd
          chmod 700 $PERS_HOME"$user"

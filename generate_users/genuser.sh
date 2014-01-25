@@ -30,6 +30,7 @@ PERS_SH="/bin/bash"
       else
          # Create a new user
          /usr/sbin/useradd -d "$PERS_HOME""$user" -s "$PERS_SH" -m "$user"
+         chmod 500 /home/$user
          # passwdgen must be installed
          #pass=$(passwdgen -paq --length 8)
          pass=$(passwdgen)
