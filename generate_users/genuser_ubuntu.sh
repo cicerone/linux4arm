@@ -30,7 +30,8 @@ PERS_SH="/bin/bash"
          echo >&2 "ERROR: User account: \"$user\" already exists." >> "$LOGFILE"
       else
          # Create a new user
-         pass=$(/home/roni/user_generation/passwdgen-0.1.2/src/passwdgen)
+         #pass=$(/home/roni/user_generation/passwdgen-0.1.2/src/passwdgen)
+         pass=$(passwdgen)
          /usr/sbin/useradd -d "$PERS_HOME""$user" -s "$PERS_SH" -m "$user"
          chmod 500 /home/$user
          #this does the trick to set the proper passwd
