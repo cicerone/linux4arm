@@ -6,6 +6,8 @@ while true; do
     rm -f action.sh
     #rm -f info.log
     sshpass -p $CAM_PSWD scp  $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/info.log $INFO_DIR/info.log
+    sshpass -p $CAM_PSWD ssh  $CAM_ID@se1rver.mailcam.co 'rm /home/'$CAM_ID'/info.log'
+
     awk -f build_action.awk info.log
     chmod 700 action.sh
     ./action.sh
