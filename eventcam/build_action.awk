@@ -23,8 +23,8 @@ BEGIN { FS = ":" } ;
     print "if diff info.log info_old.log >/dev/null ; then"                             >> "action.sh"
     print "    echo \"Same info files.\""                                               >> "action.sh" 
     print "else"                                                                        >> "action.sh"
-#    print "    mpack -s ecam_params info.log " $11                                      >> "action.sh"
-    print "    echo \"Same info files.\""                                               >> "action.sh" 
+    print "    echo \"New info file.\""                                               >> "action.sh" 
+    print "    mpack -s ecam_params info.log " $11                                      >> "action.sh"
     print "fi"                                                                          >> "action.sh"
 
     if ($7 == "Motion")
@@ -42,8 +42,7 @@ BEGIN { FS = ":" } ;
         print "               rm -f $PIC_DIR/$last_file"                                    >> "action.sh"
         print "               continue"                                                     >> "action.sh"
         print "           fi"                                                               >> "action.sh"
-        #print "           mpack -s picture $PIC_DIR/$last_file " $11                        >> "action.sh"
-        #print "           sshpass -p 'roni' scp $PIC_DIR/$last_file roni@192.241.230.171:/home/roni/test_videos" >> "action.sh"
+        print "           mpack -s picture $PIC_DIR/$last_file " $11                        >> "action.sh"
         print "           echo \"$PIC_DIR/$last_file\""                                     >> "action.sh"
         print "           rm -f $PIC_DIR/$last_file"                                        >> "action.sh"
         print "           PIC_COUNTER=$(($PIC_COUNTER+1)) "                                 >> "action.sh"
@@ -68,10 +67,8 @@ BEGIN { FS = ":" } ;
 
         print "if  [ $STANDBY_COUNTER -lt 60 ]; then"                                       >> "action.sh"
         print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
-       #print "    mpack -s video movie_1.mp4 "$11                                          >> "action.sh"
-        #print "    mpack -s alarm info.log 4084314892@tmomail.net"                                >> "action.sh"
+        print "    mpack -s video movie_1.mp4 "$11                                          >> "action.sh"
         print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                           >> "action.sh"
-        #print "    sshpass -p 'roni' scp movie_1.mp4 roni@192.241.230.171:/home/roni/test_videos/$movie_file" >> "action.sh"
         print "fi"                                                                          >> "action.sh"
     }
     else if ($7 == "Periodic")
@@ -80,7 +77,7 @@ BEGIN { FS = ":" } ;
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "PERIOD="$23*10                                                               >> "action.sh"
         print "/home/ubuntu/bin/ffmpeg -f video4linux2 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
-#        print "mpack -s video movie_1.mp4 "$11                                         >> "action.sh"
+        print "mpack -s video movie_1.mp4 "$11                                         >> "action.sh"
         print "while true; do"                                                          >> "action.sh"
         print "    PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                              >> "action.sh"
         print "    if  [ $PERIOD_COUNTER -gt $PERIOD ]; then"                           >> "action.sh"
@@ -122,7 +119,7 @@ BEGIN { FS = ":" } ;
         print "            kill -9 $pid"                                                 >> "action.sh"
         print "            sleep 1"                                                      >> "action.sh"
         print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
-#        print "            mpack -s video movie_1.mp4 "$11                               >> "action.sh"
+        print "            mpack -s video movie_1.mp4 "$11                               >> "action.sh"
         print "            break"                                                        >> "action.sh"
         print "        fi"                                                               >> "action.sh"
         print "        sleep 1"                                                          >> "action.sh"
