@@ -66,7 +66,7 @@ BEGIN { FS = ":" } ;
         print "rm -f $PIC_DIR/*"                                                            >> "action.sh"  
 
         print "if  [ $STANDBY_COUNTER -lt 60 ]; then"                                       >> "action.sh"
-        print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
+        print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
         print "    mpack -s video movie_1.mp4 "$11                                          >> "action.sh"
         print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                           >> "action.sh"
         print "fi"                                                                          >> "action.sh"
@@ -77,7 +77,10 @@ BEGIN { FS = ":" } ;
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "PERIOD="$23*10                                                               >> "action.sh"
         print "/home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock movie_1.mp4 " >> "action.sh" 
-        print "mpack -s video movie_1.mp4 "$11                                         >> "action.sh"
+        #print "mpack -s video movie_1.mp4 "$11                                         >> "action.sh"
+        print "sshpass -p $CAM_PSWD scp /home/ubuntu/eventcam/movie_1.mp4 $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/"                                                                                        >> "action.sh"  
+        print "sshpass -p $CAM_PSWD ssh $CAM_ID@se1rver.mailcam.co 'mutt -s \"test mutt inel\" -a ~/movie_1.mp4 -- "$11" < ~/info.log'"                                                                        >> "action.sh"
+
         print "while true; do"                                                          >> "action.sh"
         print "    PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                              >> "action.sh"
         print "    if  [ $PERIOD_COUNTER -gt $PERIOD ]; then"                           >> "action.sh"
