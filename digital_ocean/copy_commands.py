@@ -47,6 +47,9 @@ for cmd_line in cmd_lines:
     seen_cmd = seen_cmd +  "\nAction = " + cmd_fields[ACTION_ID]
     f.write(seen_cmd)
     f.close()
+    file2remove = dir2copy + "/new_command.txt"
+    if os.path.isfile(file2remove):
+        os.remove(file2remove)
     shutil.move("new_command.txt", dir2copy)
 
 
