@@ -7,6 +7,7 @@ while true; do
     #rm -f info.log
     sshpass -p $CAM_PSWD scp  $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/info.log $EVENTCAM_DIR/
     sshpass -p $CAM_PSWD scp  $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/
+    cp $EVENTCAM_DIR/new_command.txt $EVENTCAM_DIR/prev_command.txt
 #    sshpass -p $CAM_PSWD ssh  $CAM_ID@se1rver.mailcam.co 'rm /home/'$CAM_ID'/info.log'
 
     awk -f build_action.awk info.log
