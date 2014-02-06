@@ -2,7 +2,7 @@
 
 EVENTCAM_DIR="/home/ubuntu/eventcam"
 while true; do
-    rm -f movie_1.mp4
+    rm -f *.mp4
     rm -f action.sh
     #rm -f info.log
     sshpass -p $CAM_PSWD scp  $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/info.log $EVENTCAM_DIR/
