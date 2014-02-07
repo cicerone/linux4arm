@@ -43,9 +43,9 @@ for cmd_line in cmd_lines:
     seen_cmd = "Mode = " + cmd_fields[MODE_ID] 
     seen_cmd = seen_cmd + "\nEmail = " + cmd_fields[EMAIL_ID] 
     seen_cmd = seen_cmd + "\nPictures Nr = " + cmd_fields[PIC_NR_ID] 
-    seen_cmd = seen_cmd + "\nDelay = " + cmd_fields[DELAY_ID]
-    seen_cmd = seen_cmd + "\nMovie Duration = " + cmd_fields[MOVIE_TIME_ID]
-    seen_cmd = seen_cmd + "\nHeartBeat = " + cmd_fields[HEART_BEAT_ID]
+    seen_cmd = seen_cmd + "\nDelay = " + cmd_fields[DELAY_ID] + " s"
+    seen_cmd = seen_cmd + "\nMovie Duration = " + cmd_fields[MOVIE_TIME_ID] + " s"
+    seen_cmd = seen_cmd + "\nHeartBeat = " + cmd_fields[HEART_BEAT_ID] + " m"
     seen_cmd = seen_cmd + "\nAction = " + cmd_fields[ACTION_ID]
     f.write(seen_cmd)
     f.close()
