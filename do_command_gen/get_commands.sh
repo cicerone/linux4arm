@@ -1,8 +1,8 @@
 #!/bin/bash -x
 
-NEW_EMAIL_DIR="/home/roni/Maildir/new"
-OLD_EMAIL_DIR="/home/roni/Maildir/cur"
-MAILCAM_DIR="/home/roni/mail_cam"
+NEW_EMAIL_DIR="/home/suse465/Maildir/new"
+OLD_EMAIL_DIR="/home/suse465/Maildir/cur"
+MAILCAM_DIR="/home/suse465/mail_cam"
 
 while true; do
 
@@ -26,7 +26,6 @@ while true; do
     else
         echo "$NEW_EMAIL_DIR is Empty"
     fi
-
     sleep 1 
 done
 

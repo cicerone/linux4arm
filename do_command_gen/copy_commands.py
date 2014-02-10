@@ -30,14 +30,18 @@ for cmd_line in cmd_lines:
         os.makedirs(dir2copy)
 
     print "directory to copy files = ", dir2copy
-    file2remove = dir2copy + "/info.log"
-    print "file to remove = ", file2remove 
     f = open('info.log', "w")
     f.write(cmd_line)
     f.close();
-    if os.path.isfile(file2remove):
-        os.remove(file2remove)
-    shutil.move("info.log", dir2copy)
+    
+    if os.path.isfile("info.log"):
+        awk_cmd = "awk -f ./build_action.awk ./info.log; chmod 744 action.sh;"
+        os.system(awk_cmd)
+        file2remove = dir2copy + "/action.sh"
+        if os.path.isfile(file2remove):
+            os.remove(file2remove)
+        shutil.move("action.sh", dir2copy)
+    
 
     f = open('new_command.txt', "w")
     seen_cmd = "Mode = " + cmd_fields[MODE_ID] 
