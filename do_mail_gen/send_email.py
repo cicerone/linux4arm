@@ -40,8 +40,12 @@ while 1:
                      os.system(cmd)
                      os.remove(full_fname_mp4)
 
-             # remove the new_command.txt
+            # remove the new_command.txt
             os.remove(file2check)
+            files_sent = dir2check + "/sent"
+            
+            if os.path.isfile(files_sent):
+                os.remove(files_sent)
 
 
 
