@@ -40,7 +40,10 @@ BEGIN { FS = ":" } ;
         print "               rm -f $PIC_DIR/$last_file"                                    >> "action.sh"
         print "               continue"                                                     >> "action.sh"
         print "           fi"                                                               >> "action.sh"
+        if ($15 > 0)
+        {
         print "            sshpass -p $CAM_PSWD scp $PIC_DIR/$last_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"  >> "action.sh"  
+        }
         print "           echo \"$PIC_DIR/$last_file\""                                     >> "action.sh"
         print "           rm -f $PIC_DIR/$last_file"                                        >> "action.sh"
         print "           PIC_COUNTER=$(($PIC_COUNTER+1)) "                                 >> "action.sh"
@@ -49,6 +52,8 @@ BEGIN { FS = ":" } ;
         print "           fi"                                                               >> "action.sh"
         print "       else"                                                                 >> "action.sh"
         print "           echo \"No motion detected.\""                                     >> "action.sh"
+        if ($23 > 0)
+        {
         print "           PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                           >> "action.sh"
         print "           if  [ $PERIOD_COUNTER -gt $PERIOD ]; then"                        >> "action.sh"
         print "               PERIOD_COUNTER=1"                                             >> "action.sh"
@@ -63,6 +68,7 @@ BEGIN { FS = ":" } ;
         print "               echo \"Start motion program!\""                               >> "action.sh"
         print "               motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "           fi"                                                               >> "action.sh"
+        }
         print "           STANDBY_COUNTER=$(($STANDBY_COUNTER+1)) "                         >> "action.sh"
         print "           if  [ $STANDBY_COUNTER -gt $UPDATE_DELAY ]; then"                 >> "action.sh"
         print "               STANDBY_COUNTER=1"                                            >> "action.sh"
@@ -87,9 +93,12 @@ BEGIN { FS = ":" } ;
         print "if  [ $STANDBY_COUNTER -lt $UPDATE_DELAY ]; then"                            >> "action.sh"
         print "    rm -f *.mp4 "                                                            >> "action.sh"
         print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                           >> "action.sh"
+        if ($19 > 0)
+        {
         print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240  -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
         print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
         print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        }
         print "fi"                                                                           >> "action.sh"
     }
     else if ($7 == "Periodic")
@@ -99,9 +108,12 @@ BEGIN { FS = ":" } ;
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "rm -f *.mp4 "                                                                >> "action.sh"
         print "movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                               >> "action.sh"
+        if ($19 > 0)
+        {
         print "/home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
-        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"                                                                                        >> "action.sh"  
+        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"     >> "action.sh"  
         print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        }
         print "while true; do"                                                          >> "action.sh"
         print "    PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                              >> "action.sh"
         print "    if  [ $PERIOD_COUNTER -gt $PERIOD ]; then"                           >> "action.sh"
@@ -110,7 +122,7 @@ BEGIN { FS = ":" } ;
         print "    STANDBY_COUNTER=$(($STANDBY_COUNTER+1)) "                            >> "action.sh"
         print "    if  [ $STANDBY_COUNTER -gt $UPDATE_DELAY ]; then"                    >> "action.sh"
         print "        STANDBY_COUNTER=1"                                               >> "action.sh"
-        print "        sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/"     >> "action.sh"
+        print "        sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/" >> "action.sh"
         print "        if diff new_command.txt prev_command.txt > /dev/null ; then"     >> "action.sh"
         print "            echo \"Same info files.\""                                   >> "action.sh" 
         print "        else"                                                            >> "action.sh"
@@ -139,6 +151,8 @@ BEGIN { FS = ":" } ;
         print "        echo \"Motion detected!\""                                        >> "action.sh"
         print "        rm -f $PIC_DIR/*"                                                 >> "action.sh"
         print "        DELAY_COUNTER=1"                                                  >> "action.sh"
+        if ($23 > 0)
+        {
         print "        if  [ $PERIOD_COUNTER -gt $PERIOD ]; then"                        >> "action.sh"
         print "            PERIOD_COUNTER=1"                                             >> "action.sh"
         print "            pid=$(head /home/ubuntu/.motion/motion.pid)"                  >> "action.sh"
@@ -148,14 +162,15 @@ BEGIN { FS = ":" } ;
         print "            rm -f *.mp4 "                                                 >> "action.sh"
         print "            movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
         print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $HBMOVIE_DURATION -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
-        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"  >> "action.sh"  
+        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
         print "            echo \"Start motion program!\""                               >> "action.sh"
         print "            motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "        fi"                                                               >> "action.sh"
+        }
         print "        STANDBY_COUNTER=$(($STANDBY_COUNTER+$INCREMENT_TIME)) "           >> "action.sh"
         print "        if  [ $STANDBY_COUNTER -gt $UPDATE_DELAY ]; then"                 >> "action.sh"
         print "            STANDBY_COUNTER=1"                                            >> "action.sh"
-        print "            sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/"     >> "action.sh"
+        print "            sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/" >> "action.sh"
         print "            if diff new_command.txt prev_command.txt > /dev/null ; then"  >> "action.sh"
         print "                echo \"Same info files.\""                                >> "action.sh" 
         print "            else"                                                         >> "action.sh"
@@ -172,7 +187,7 @@ BEGIN { FS = ":" } ;
         print "        STANDBY_COUNTER=$(($STANDBY_COUNTER+$INCREMENT_TIME)) "           >> "action.sh"
         print "        if  [ $STANDBY_COUNTER -gt $UPDATE_DELAY ]; then"                 >> "action.sh"
         print "            STANDBY_COUNTER=1"                                            >> "action.sh"
-        print "            sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/"     >> "action.sh"
+        print "            sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/new_command.txt $EVENTCAM_DIR/" >> "action.sh"
         print "            if diff new_command.txt prev_command.txt > /dev/null ; then"  >> "action.sh"
         print "                echo \"Same info files.\""                                >> "action.sh" 
         print "            else"                                                         >> "action.sh"
@@ -193,8 +208,12 @@ BEGIN { FS = ":" } ;
         print "            sleep 1"                                                      >> "action.sh"
         print "            rm -f *.mp4 "                                                 >> "action.sh"
         print "            movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
+        if ($19 > 0)
+        {
         print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file" >> "action.sh" 
         print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
+        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        }
         print "            break"                                                        >> "action.sh"
         print "        fi"                                                               >> "action.sh"
         print "    fi"                                                                   >> "action.sh"
