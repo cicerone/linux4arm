@@ -6,7 +6,7 @@ The directories names are read from a file named username.txt
 """
 import fileinput
 import os
-
+import filecmp
 
 def save_size_of_files_sent(size_video_files_):
     dir_user_statistics = "/home/" + email_user_name
@@ -62,7 +62,6 @@ while 1:
             video_files = os.listdir(dir2check)
             video_files.sort()
             size_video_files = 0
-            is_video_file_sent = False
             for fname in video_files:
                 if fname.endswith(".jpg"):
                      full_fname_jpg = dir2check + '/' + fname
@@ -70,7 +69,7 @@ while 1:
                      cmd = 'mv ' + full_fname_jpg + ' ' + dir2email
                      print "cmd = ", cmd
                      os.system(cmd)
-                     cmd = 'cp -rf ' + file2check + ' ' + dir2email
+                     cmd = 'mv ' + file2check + ' ' + dir2email
                      print "cmd = ", cmd
                      os.system(cmd)
                      full_fname_email_jpg = dir2email + '/' + fname
@@ -78,7 +77,6 @@ while 1:
                      print "cmd = ", cmd
                      os.system(cmd)
                      os.remove(full_fname_email_jpg)
-                     is_video_file_sent = True 
             for fname in video_files:
                 if fname.endswith(".mp4"):
                      full_fname_mp4 = dir2check + '/' + fname
@@ -86,7 +84,7 @@ while 1:
                      cmd = 'mv ' + full_fname_mp4 + ' ' + dir2email
                      print "cmd = ", cmd
                      os.system(cmd)
-                     cmd = 'cp -rf ' + file2check + ' ' + dir2email
+                     cmd = 'mv ' + file2check + ' ' + dir2email
                      print "cmd = ", cmd
                      os.system(cmd)
                      full_fname_email_mp4 = dir2email + '/' + fname
@@ -94,7 +92,6 @@ while 1:
                      print "cmd = ", cmd
                      os.system(cmd)
                      os.remove(full_fname_email_mp4)
-                     is_video_file_sent = True 
             # size in Kb
             size_video_files >>= 10
             print "Size in KB = " , size_video_files
@@ -118,18 +115,25 @@ while 1:
                      
                     
             # remove the new_command.txt
-            if not is_video_file_sent:
-                cmd = 'cp -rf ' + file2check + ' ' + dir2email
-                print "cmd = ", cmd
-                os.system(cmd)
-                cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -- ' + email + ' < ' + file2check4email + '\"'
-                print "cmd = ", cmd
-                os.system(cmd)
+            if os.path.isfile(file2check):
+                if os.path.isfile(file2check4email):
+                    cmd = 'touch ' + file2check4email
+                    print "cmd = ", cmd
+                    os.system(cmd)
+               
+                if not filecmp.cmp(file2check, file2check4email):
+                    cmd = 'mv ' + file2check + ' ' + dir2email
+                    print "cmd = ", cmd
+                    os.system(cmd)
+                    cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -- ' + email + ' < ' + file2check4email + '\"'
+                    print "cmd = ", cmd
+                    os.system(cmd)
 
             if os.path.isfile(file2check):
                 os.remove(file2check)
-            if os.path.isfile(file2check4email):
-                os.remove(file2check4email)
+                print "ERROR! Never reach this point!"
+            #if os.path.isfile(file2check4email):
+            #    os.remove(file2check4email)
 
             #other_files = os.listdir(dir2check)
             #print "Other files " , other_files
