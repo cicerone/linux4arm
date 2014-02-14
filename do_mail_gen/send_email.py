@@ -51,6 +51,10 @@ while 1:
         file2check = dir2check + "/new_command.txt"
         file2check4email = dir2email + "/new_command.txt"
         if os.path.isfile(file2check) and (os.path.getsize(file2check) > 100):
+            cmd = 'rm -f ' + dir2check + '/read_finished.txt'
+            print "cmd = ", cmd
+            os.system(cmd)
+
             f = open(file2check)
             f2c_lines = f.readlines()
             f.close()
@@ -58,6 +62,7 @@ while 1:
             video_files = os.listdir(dir2check)
             video_files.sort()
             size_video_files = 0
+            is_video_file_sent = False
             for fname in video_files:
                 if fname.endswith(".jpg"):
                      full_fname_jpg = dir2check + '/' + fname
@@ -73,6 +78,7 @@ while 1:
                      print "cmd = ", cmd
                      os.system(cmd)
                      os.remove(full_fname_email_jpg)
+                     is_video_file_sent = True 
             for fname in video_files:
                 if fname.endswith(".mp4"):
                      full_fname_mp4 = dir2check + '/' + fname
@@ -88,9 +94,10 @@ while 1:
                      print "cmd = ", cmd
                      os.system(cmd)
                      os.remove(full_fname_email_mp4)
-
+                     is_video_file_sent = True 
             # size in Kb
             size_video_files >>= 10
+            print "Size in KB = " , size_video_files
             # remove the sent file created by email
             files_sent = dir2email + "/sent"
             if os.path.isfile(files_sent):
@@ -103,7 +110,7 @@ while 1:
                 mail_dir_size = compute_dir_size(mail_dir)
                 print "MailDir size is = " , mail_dir_size
                 if mail_dir_size > 10000:
-                     cmd = 'su ' + user_name + ' -c \"mutt -s \\"mailcam wrong email from user\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
+                     cmd = 'su ' + user_name + ' -c \"mutt -s \\"MailCam wrong email from user\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
                      os.system(cmd)
                      cmd = "rm -rf " + mail_dir
                      os.system(cmd)
@@ -111,6 +118,23 @@ while 1:
                      
                     
             # remove the new_command.txt
-            os.remove(file2check)
-            other_files = os.listdir(dir2check)
-            print "Other files " , other_files
+            if not is_video_file_sent:
+                cmd = 'cp -rf ' + file2check + ' ' + dir2email
+                print "cmd = ", cmd
+                os.system(cmd)
+                cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -- ' + email + ' < ' + file2check4email + '\"'
+                print "cmd = ", cmd
+                os.system(cmd)
+
+            if os.path.isfile(file2check):
+                os.remove(file2check)
+            if os.path.isfile(file2check4email):
+                os.remove(file2check4email)
+
+            #other_files = os.listdir(dir2check)
+            #print "Other files " , other_files
+            cmd = 'touch ' + dir2check + '/read_finished.txt'
+            print "cmd = ", cmd
+            os.system(cmd)
+
+
