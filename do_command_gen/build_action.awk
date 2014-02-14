@@ -21,11 +21,18 @@ BEGIN { FS = ":" } ;
     print "    sleep $UPDATE_DELAY"                                                     >> "action.sh"
     print "    exit 1;"                                                                 >> "action.sh"
     print "fi"                                                                          >> "action.sh"
+    print "function handshake() {"                                                      >> "action.sh"
+    print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+    print "    while [ ! -f $EVENTCAM_DIR/read_finished.txt]; do"                                              >> "action.sh"
+    print "        sshpass -p $CAM_PSWD scp $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/read_finished.txt $EVENTCAM_DIR/" >> "action.sh"
+    print "    done"                                                                     >> "action.sh"
+    print "    rm -f $EVENTCAM_DIR/read_finished.txt"                                    >> "action.sh"
+    print "}"                                                                            >> "action.sh"
 
     if ($7 == "Motion")
     {
         print "#Motion"                                                                     >> "action.sh"
-        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "handshake"                                                                  >> "action.sh"
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "PIC_DIR=\"/home/ubuntu/.motion/test\" "                                      >> "action.sh"
         print "PIC_COUNTER=1"                                                               >> "action.sh"
@@ -43,6 +50,7 @@ BEGIN { FS = ":" } ;
         if ($15 > 0)
         {
         print "            sshpass -p $CAM_PSWD scp $PIC_DIR/$last_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"  >> "action.sh"  
+        print "            handshake"                                                                  >> "action.sh"
         }
         print "           echo \"$PIC_DIR/$last_file\""                                     >> "action.sh"
         print "           rm -f $PIC_DIR/$last_file"                                        >> "action.sh"
@@ -64,7 +72,7 @@ BEGIN { FS = ":" } ;
         print "               movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
         print "               /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $HBMOVIE_DURATION -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file" >> "action.sh" 
         print "               sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "               sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "               handshake"                                                    >> "action.sh"
         print "               echo \"Start motion program!\""                               >> "action.sh"
         print "               motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "           fi"                                                               >> "action.sh"
@@ -97,13 +105,14 @@ BEGIN { FS = ":" } ;
         {
         print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240  -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
         print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "    handshake"                                                               >> "action.sh"
         }
         print "fi"                                                                           >> "action.sh"
     }
     else if ($7 == "Periodic")
     {
         print "#Periodic"                                                                   >> "action.sh"
+        print "handshake"                                                               >> "action.sh"
         print "STANDBY_COUNTER=1"                                                           >> "action.sh"
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "rm -f *.mp4 "                                                                >> "action.sh"
@@ -112,7 +121,7 @@ BEGIN { FS = ":" } ;
         {
         print "/home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
         print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/"     >> "action.sh"  
-        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "handshake"                                                               >> "action.sh"
         }
         print "while true; do"                                                          >> "action.sh"
         print "    PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                              >> "action.sh"
@@ -136,7 +145,7 @@ BEGIN { FS = ":" } ;
     else if ($7 == "Still")
     {
         print "#Still"                                                                   >> "action.sh"
-        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "handshake"                                                                >> "action.sh"
         print "DELAY_COUNTER=1"                                                          >> "action.sh"
         print "DELAY="$17                                                                >> "action.sh"
         print "PERIOD_COUNTER=1"                                                         >> "action.sh"
@@ -163,6 +172,7 @@ BEGIN { FS = ":" } ;
         print "            movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
         print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $HBMOVIE_DURATION -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
         print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
+        print "            handshake"                                                                >> "action.sh"
         print "            echo \"Start motion program!\""                               >> "action.sh"
         print "            motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "        fi"                                                               >> "action.sh"
@@ -212,7 +222,7 @@ BEGIN { FS = ":" } ;
         {
         print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file" >> "action.sh" 
         print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@smtp.mailcam.co:/home/$CAM_ID/" >> "action.sh"
+        print "            handshake"                                                    >> "action.sh"
         }
         print "            break"                                                        >> "action.sh"
         print "        fi"                                                               >> "action.sh"
