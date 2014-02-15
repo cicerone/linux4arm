@@ -131,7 +131,6 @@ while 1:
 
             if os.path.isfile(file2check):
                 os.remove(file2check)
-                print "ERROR! Never reach this point!"
             #if os.path.isfile(file2check4email):
             #    os.remove(file2check4email)
 
