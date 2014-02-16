@@ -51,6 +51,7 @@ for cmd_line in cmd_lines:
     seen_cmd = seen_cmd + "\nMovie Duration = " + cmd_fields[MOVIE_TIME_ID] + " s"
     seen_cmd = seen_cmd + "\nHeartBeat = " + cmd_fields[HEART_BEAT_ID] + " m"
     seen_cmd = seen_cmd + "\nAction = " + cmd_fields[ACTION_ID]
+    seen_cmd = seen_cmd + "\n======="
     f.write(seen_cmd)
     f.close()
     file2remove = dir2copy + "/new_command.txt"

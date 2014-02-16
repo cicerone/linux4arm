@@ -40,6 +40,10 @@ f = open('username.txt')
 user_lines = f.readlines()
 f.close()
 
+EMAIL_LINE = 1
+LAST_LINE = 7
+LAST_LINE_PATTERN = "======="
+
 while 1:
     for user_line in user_lines:
         user_name = user_line.rstrip('\n')
@@ -47,18 +51,21 @@ while 1:
         dir2check = "/home/" + user_name
         dir2email = "/home/" + email_user_name
 
-
         file2check = dir2check + "/new_command.txt"
         file2check4email = dir2email + "/new_command.txt"
+
         if os.path.isfile(file2check) and (os.path.getsize(file2check) > 100):
+            f = open(file2check)
+            f2c_lines = f.readlines()
+            f.close()
+            if LAST_LINE_PATTERN not in f2c_lines[len(f2c_lines) - 1]:
+                continue
+
             cmd = 'rm -f ' + dir2check + '/read_finished.txt'
             print "cmd = ", cmd
             os.system(cmd)
 
-            f = open(file2check)
-            f2c_lines = f.readlines()
-            f.close()
-            email = f2c_lines[1].split(" ")[2].rstrip('\n')
+            email = f2c_lines[EMAIL_LINE].split(" ")[2].rstrip('\n')
             video_files = os.listdir(dir2check)
             video_files.sort()
             size_video_files = 0
