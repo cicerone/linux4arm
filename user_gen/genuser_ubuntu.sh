@@ -7,7 +7,7 @@ then
 
 # CHANGE THIS PARAMETERS FOR A PARTICULAR USE
 PERS_HOME="/home/"
-PERS_SH="/bin/bash"
+PERS_SH="/usr/bin/rssh"
 
    # Checks if there is an argument
    [ $# -eq 0 ] && { echo >&2 ERROR: You may enter as an argument a text file containing users, one per line. ; exit 1; }
@@ -31,12 +31,11 @@ PERS_SH="/bin/bash"
       else
          # Create a new user
          #pass=$(/home/roni/user_generation/passwdgen-0.1.2/src/passwdgen)
-         pass=$(passwdgen)
+         pass=$(passwdgen -m 8 -M 8)
          /usr/sbin/useradd -d "$PERS_HOME""$user" -s "$PERS_SH" -m "$user"
-         chmod 500 /home/$user
          #this does the trick to set the proper passwd
          echo "$user:$pass" | chpasswd
-         chmod 700 $PERS_HOME"$user"
+         chmod 500 $PERS_HOME"$user"
          echo -e $user":"$pass":" >> "$LOGFILE"
          echo "The user \"$user\" has been created and has the password: $pass"
       fi
