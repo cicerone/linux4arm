@@ -34,7 +34,7 @@ for up_line in up_lines:
 
     serial_nr_file_name = dir2copy + "/serial_nr.jpg"
     serial_nr_file = open(serial_nr_file_name, "w") 
-    new_line = last_jpg_line[:3] + fields[USER_INDEX] + last_jpg_line[11:15] + fields[PSWD_INDEX] + last_jpg_line[23:]
+    new_line = last_jpg_line[:3] + fields[USER_INDEX] + last_jpg_line[11:15] + fields[PSWD_INDEX] + last_jpg_line[31:]
     cntr = 0
     for jpg_line in jpg_lines:
         if cntr == nr_jpg_lines - 1:

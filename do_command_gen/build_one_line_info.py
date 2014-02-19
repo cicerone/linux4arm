@@ -25,7 +25,7 @@ nr_lines = len(jpeg_lines)
 jpeg_last_line = jpeg_lines[nr_lines - 1]
 
 username = jpeg_last_line[3:11]
-password = jpeg_last_line[15:23]
+password = jpeg_last_line[15:31]
 
 #print username
 #print password

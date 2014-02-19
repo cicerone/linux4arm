@@ -31,7 +31,7 @@ PERS_SH="/usr/bin/rssh"
       else
          # Create a new user
          #pass=$(/home/roni/user_generation/passwdgen-0.1.2/src/passwdgen)
-         pass=$(passwdgen -m 8 -M 8)
+         pass=$(passwdgen -m 16 -M 16)
          /usr/sbin/useradd -d "$PERS_HOME""$user" -s "$PERS_SH" -m "$user"
          #this does the trick to set the proper passwd
          echo "$user:$pass" | chpasswd
