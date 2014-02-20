@@ -16,9 +16,9 @@ while true; do
         rm -f $MAILCAM_DIR/id_passwd_path.log
         rm -f $MAILCAM_DIR/serial_nr.jpg
         last_file=$(ls -t $NEW_EMAIL_DIR| tail -1)
-        sed '/Start\|Stop/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/partial_email.log
-        sed '/http/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/id_passwd_path.log
-        ./build_one_line_info.py
+        sed '/username/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/email.log
+        #sed '/http/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/id_passwd_path.log
+        #./build_one_line_info.py
         ./check_commands.py
         ./copy_commands.py
         mv  $NEW_EMAIL_DIR/$last_file $OLD_EMAIL_DIR/$last_file 
