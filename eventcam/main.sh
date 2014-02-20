@@ -8,7 +8,7 @@ FILE_PC="prev_command.txt"
 while true; do
     rm -f *.mp4
     rm -f *.jpg
-    sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/$FILE_NC $EVENTCAM_DIR/
+    sshpass -p $CAM_PSWD scp $CAM_ID@$CSERVER_ID.mailcam.co:/home/$CAM_ID/$FILE_NC $EVENTCAM_DIR/
 
     if grep -q $PATTERN $FILE_NC; then
         # file contains pattern
@@ -16,7 +16,7 @@ while true; do
             echo \"Same cmd files.\"                              
         else                                                      
             echo \"New cmd file.\"                                
-            sshpass -p $CAM_PSWD scp $CAM_ID@se1rver.mailcam.co:/home/$CAM_ID/action.sh $EVENTCAM_DIR/
+            sshpass -p $CAM_PSWD scp $CAM_ID@$CSERVER_ID.mailcam.co:/home/$CAM_ID/action.sh $EVENTCAM_DIR/
             cp $EVENTCAM_DIR/$FILE_NC $EVENTCAM_DIR/$FILE_PC
         fi                                                        
         ./action.sh
