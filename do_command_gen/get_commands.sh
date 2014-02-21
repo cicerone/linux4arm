@@ -9,7 +9,6 @@ while true; do
 # look for empty dir 
     if [ "$(ls -A $NEW_EMAIL_DIR)" ]; then
         echo "Take action $NEW_EMAIL_DIR is not Empty"
-        sleep 1
         rm -f $MAILCAM_DIR/email.log
         rm -f $MAILCAM_DIR/info.log
         rm -f $MAILCAM_DIR/partial_email.log
@@ -17,14 +16,11 @@ while true; do
         rm -f $MAILCAM_DIR/serial_nr.jpg
         last_file=$(ls -t $NEW_EMAIL_DIR| tail -1)
         sed '/username/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/email.log
-        #sed '/http/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/id_passwd_path.log
-        #./build_one_line_info.py
         ./check_commands.py
         ./copy_commands.py
-        mv  $NEW_EMAIL_DIR/$last_file $OLD_EMAIL_DIR/$last_file 
-        echo "info.log is ready!"
-    else
-        echo "$NEW_EMAIL_DIR is Empty"
+        #mv  $NEW_EMAIL_DIR/$last_file $OLD_EMAIL_DIR/$last_file 
+        rm  -f $NEW_EMAIL_DIR/$last_file 
+        #echo "info.log is ready!"
     fi
     sleep 1 
 done
