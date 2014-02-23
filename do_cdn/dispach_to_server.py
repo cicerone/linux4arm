@@ -61,18 +61,18 @@ def main():
         if servername == server_supported:
             #print "BINGO send email"
             # TODO change the se1rver with the server name and email.log with time based email name
-            cmd = 'mutt -s \"new_cmd\"  -- suse465@se1rver.mailcam.co < email.log'
+            cmd = 'mutt -s \"new_cmd\"  -- cabsibia@cmd.' + servername + '.mailcam.co < email.log'
             os.system(cmd)
             is_valid_server = True 
     
 
     if not is_valid_server:
         sender_ip_file_name = 'sender_ip.log_' + str(datetime.now().microsecond)
-        cmd = 'mv sender_ip.log  /home/suse465/wrong_ip/' + sender_ip_file_name
+        cmd = 'mv sender_ip.log  /home/hizatcix/wrong_ip/' + sender_ip_file_name
         os.system(cmd)
 
 
-logging.basicConfig(level=logging.DEBUG, filename='/home/suse465/err.log')
+logging.basicConfig(level=logging.DEBUG, filename='/home/hizatcix/err.log')
 
 try:
     main()

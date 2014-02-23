@@ -1,8 +1,8 @@
 #!/bin/bash -x
 
-NEW_EMAIL_DIR="/home/suse465/Maildir/new"
-OLD_EMAIL_DIR="/home/suse465/Maildir/cur"
-DMUX_DIR="/home/suse465/dmux"
+NEW_EMAIL_DIR="/home/hizatcix/Maildir/new"
+OLD_EMAIL_DIR="/home/hizatcix/Maildir/cur"
+DMUX_DIR="/home/hizatcix/dmux"
 
 while true; do
 

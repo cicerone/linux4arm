@@ -9,7 +9,7 @@ import fileinput
 import os
 import shutil 
 
-
+# Manually change this server name
 server_name = 'unalutus'
 
 jpeg_file = open("image.jpg", "r")
