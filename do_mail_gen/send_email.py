@@ -146,7 +146,7 @@ def main():
                 os.system(cmd)
 
 
-logging.basicConfig(level=logging.DEBUG, filename='/home/ricabrac/send_email_err.log')
+logging.basicConfig(level=logging.DEBUG, filename='/home/wrylvoin/send_email_err.log')
 
 try:
     main()
