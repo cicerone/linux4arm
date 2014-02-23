@@ -9,8 +9,9 @@ import fileinput
 import os
 import shutil 
 
-# Manually change this server name
-server_name = 'unalutus'
+# !!! Manually change this server name !!!
+#server_name = 'unalutus'
+server_name = 'amutrion'
 
 jpeg_file = open("image.jpg", "r")
 jpg_lines = jpeg_file.readlines()
