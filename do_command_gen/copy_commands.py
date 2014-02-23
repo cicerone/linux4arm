@@ -62,7 +62,7 @@ def main():
         shutil.move("new_command.txt", dir2copy)
 
 
-logging.basicConfig(level=logging.DEBUG, filename='/home/suse465/copy_commands_err.log')
+logging.basicConfig(level=logging.DEBUG, filename='/home/cabsibia/copy_commands_err.log')
 
 try:
     main()

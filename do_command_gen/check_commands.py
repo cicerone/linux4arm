@@ -34,7 +34,7 @@ def main():
     f.close()
 
 
-logging.basicConfig(level=logging.DEBUG, filename='/home/suse465/check_commands_err.log')
+logging.basicConfig(level=logging.DEBUG, filename='/home/cabsibia/check_commands_err.log')
 
 try:
     main()
