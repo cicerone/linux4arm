@@ -6,8 +6,10 @@ The directories names are read from a file named username.txt
 """
 import fileinput
 import os
+import time
 import filecmp
 import logging
+
 
 def save_size_of_files_sent(size_video_files_, email_user_name_):
     dir_user_statistics = "/home/" + email_user_name_
@@ -47,6 +49,7 @@ def main():
     LAST_LINE_PATTERN = "======="
     
     while 1:
+        current_time = time.strftime("%Y-%m-%d %H:%M:%S")
         for user_line in user_lines:
             user_name = user_line.rstrip('\n')
             email_user_name = user_name + "on"
@@ -82,7 +85,7 @@ def main():
                          print "cmd = ", cmd
                          os.system(cmd)
                          full_fname_email_jpg = dir2email + '/' + fname
-                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
+                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
                          print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_jpg)
@@ -97,7 +100,7 @@ def main():
                          print "cmd = ", cmd
                          os.system(cmd)
                          full_fname_email_mp4 = dir2email + '/' + fname
-                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
+                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
                          print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_mp4)
@@ -116,7 +119,7 @@ def main():
                     mail_dir_size = compute_dir_size(mail_dir)
                     print "MailDir size is = " , mail_dir_size
                     if mail_dir_size > 10000:
-                         cmd = 'su ' + user_name + ' -c \"mutt -s \\"MailCam wrong email from user\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
+                         cmd = 'su ' + user_name + ' -c \"mutt -s \\"mailcam wrong email from user ' + current_time + '\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
                          os.system(cmd)
                          cmd = "rm -rf " + mail_dir
                          os.system(cmd)
@@ -134,7 +137,7 @@ def main():
                         cmd = 'mv ' + file2check + ' ' + dir2email
                         print "cmd = ", cmd
                         os.system(cmd)
-                        cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mutt inel\\" -- ' + email + ' < ' + file2check4email + '\"'
+                        cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -- ' + email + ' < ' + file2check4email + '\"'
                         print "cmd = ", cmd
                         os.system(cmd)
     
