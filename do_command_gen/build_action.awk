@@ -25,7 +25,7 @@ BEGIN { FS = ":" } ;
     print "fi"                                                                          >> "action.sh"
     print "function handshake() {"                                                      >> "action.sh"
     print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/new_command.txt $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/" >> "action.sh"
-    print "    while [ ! -f $EVENTCAM_DIR/read_finished.txt]; do"                                              >> "action.sh"
+    print "    while [ ! -f "$EVENTCAM_DIR/read_finished.txt" ]; do"                                              >> "action.sh"
     print "        sshpass -p $CAM_PSWD scp $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/read_finished.txt $EVENTCAM_DIR/" >> "action.sh"
     print "    done"                                                                     >> "action.sh"
     print "    rm -f $EVENTCAM_DIR/read_finished.txt"                                    >> "action.sh"
