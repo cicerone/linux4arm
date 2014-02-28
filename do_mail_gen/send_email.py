@@ -128,7 +128,7 @@ def main():
                         
                 # remove the new_command.txt
                 if os.path.isfile(file2check):
-                    if os.path.isfile(file2check4email):
+                    if not os.path.isfile(file2check4email):
                         cmd = 'touch ' + file2check4email
                         print "cmd = ", cmd
                         os.system(cmd)
