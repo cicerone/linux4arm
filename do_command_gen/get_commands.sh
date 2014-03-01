@@ -3,6 +3,7 @@
 NEW_EMAIL_DIR="/home/cabsibia/Maildir/new"
 OLD_EMAIL_DIR="/home/cabsibia/Maildir/cur"
 MAILCAM_DIR="/home/cabsibia/mail_cam"
+PATTERN="servername"
 
 while true; do
 
@@ -15,12 +16,16 @@ while true; do
         rm -f $MAILCAM_DIR/id_passwd_path.log
         rm -f $MAILCAM_DIR/serial_nr.jpg
         last_file=$(ls -t $NEW_EMAIL_DIR| tail -1)
-        sed '/username/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/email.log
-        ./check_commands.py
-        ./copy_commands.py
-        #mv  $NEW_EMAIL_DIR/$last_file $OLD_EMAIL_DIR/$last_file 
-        rm  -f $NEW_EMAIL_DIR/$last_file 
-        #echo "info.log is ready!"
+        if grep -q $PATTERN $NEW_EMAIL_DIR/$last_file; then
+            sed '/username/!d' $NEW_EMAIL_DIR/$last_file > $MAILCAM_DIR/email.log
+            ./check_commands.py
+            ./copy_commands.py
+            #mv  $NEW_EMAIL_DIR/$last_file $OLD_EMAIL_DIR/$last_file 
+            rm  -f $NEW_EMAIL_DIR/$last_file 
+            #echo "info.log is ready!"
+        else
+            sleep 1
+        fi
     fi
     sleep 1 
 done
