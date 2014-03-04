@@ -36,12 +36,19 @@ BEGIN { FS = ":" } ;
     print "        sleep 1"                                                              >> "action.sh"
     print "    done"                                                                     >> "action.sh"
     print "}"                                                                            >> "action.sh"
+    print "function record_movie() {"                                                    >> "action.sh"
+    print "    rm -f *.mp4 "                                                             >> "action.sh"
+    print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                            >> "action.sh"
+    print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $1 -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file "              >> "action.sh" 
+    print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/"     >> "action.sh"  
+    print "    handshake"                                                                >> "action.sh"
+    print "}"                                                                            >> "action.sh"
 
 
     if ($7 == "Motion")
     {
         print "#Motion"                                                                     >> "action.sh"
-        print "handshake"                                                                   >> "action.sh"
+        print "record_movie 1"                                                              >> "action.sh"
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
         print "PIC_DIR=\"/home/ubuntu/.motion/test\" "                                      >> "action.sh"
         print "PIC_COUNTER=1"                                                               >> "action.sh"
@@ -59,7 +66,7 @@ BEGIN { FS = ":" } ;
         if ($15 > 0)
         {
         print "            sshpass -p $CAM_PSWD scp $PIC_DIR/$last_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/"  >> "action.sh"  
-        print "            handshake"                                                                  >> "action.sh"
+        print "            handshake"                                                       >> "action.sh"
         }
         print "           echo \"$PIC_DIR/$last_file\""                                     >> "action.sh"
         print "           rm -f $PIC_DIR/$last_file"                                        >> "action.sh"
@@ -78,11 +85,7 @@ BEGIN { FS = ":" } ;
         print "               echo \"Stop motion program!\""                                >> "action.sh"
         print "               kill -9 $pid"                                                 >> "action.sh"
         print "               wait_for_motion_to_finish"                                    >> "action.sh"
-        print "               rm -f *.mp4 "                                                 >> "action.sh"
-        print "               movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
-        print "               /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $HBMOVIE_DURATION -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file" >> "action.sh" 
-        print "               sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "               handshake"                                                    >> "action.sh"
+        print "               record_movie $HBMOVIE_DURATION"                               >> "action.sh"
         print "               echo \"Start motion program!\""                               >> "action.sh"
         print "               motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "           fi"                                                               >> "action.sh"
@@ -108,30 +111,22 @@ BEGIN { FS = ":" } ;
         print "wait_for_motion_to_finish"                                    >> "action.sh"
         print "rm -f $PIC_DIR/*"                                                            >> "action.sh"  
 
-        print "if  [ $STANDBY_COUNTER -lt $UPDATE_DELAY ]; then"                            >> "action.sh"
-        print "    rm -f *.mp4 "                                                            >> "action.sh"
-        print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                           >> "action.sh"
         if ($19 > 0)
         {
-        print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240  -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
-        print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "    handshake"                                                               >> "action.sh"
+        print "if  [ $STANDBY_COUNTER -lt $UPDATE_DELAY ]; then"                            >> "action.sh"
+        print "    record_movie "$19                                                        >> "action.sh"
+        print "fi"                                                                          >> "action.sh"
         }
-        print "fi"                                                                           >> "action.sh"
     }
     else if ($7 == "Periodic")
     {
         print "#Periodic"                                                                   >> "action.sh"
-        print "handshake"                                                               >> "action.sh"
+        print "record_movie 1"                                                              >> "action.sh"
         print "STANDBY_COUNTER=1"                                                           >> "action.sh"
         print "PERIOD_COUNTER=1"                                                            >> "action.sh"
-        print "rm -f *.mp4 "                                                                >> "action.sh"
-        print "movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                               >> "action.sh"
         if ($19 > 0)
         {
-        print "/home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
-        print "sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/"     >> "action.sh"  
-        print "handshake"                                                               >> "action.sh"
+        print "record_movie "$19                                                        >> "action.sh"
         }
         print "while true; do"                                                          >> "action.sh"
         print "    PERIOD_COUNTER=$(($PERIOD_COUNTER+1)) "                              >> "action.sh"
@@ -155,7 +150,7 @@ BEGIN { FS = ":" } ;
     else if ($7 == "Still")
     {
         print "#Still"                                                                   >> "action.sh"
-        print "handshake"                                                                >> "action.sh"
+        print "record_movie 1"                                                           >> "action.sh"
         print "DELAY_COUNTER=1"                                                          >> "action.sh"
         print "DELAY="$17                                                                >> "action.sh"
         print "PERIOD_COUNTER=1"                                                         >> "action.sh"
@@ -178,11 +173,7 @@ BEGIN { FS = ":" } ;
         print "            echo \"Stop motion program!\""                                >> "action.sh"
         print "            kill -9 $pid"                                                 >> "action.sh"
         print "            wait_for_motion_to_finish"                                    >> "action.sh"
-        print "            rm -f *.mp4 "                                                 >> "action.sh"
-        print "            movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
-        print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $HBMOVIE_DURATION -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file " >> "action.sh" 
-        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "            handshake"                                                                >> "action.sh"
+        print "            record_movie $HBMOVIE_DURATION"                               >> "action.sh"
         print "            echo \"Start motion program!\""                               >> "action.sh"
         print "            motion -c /home/ubuntu/.motion/motion.conf"                   >> "action.sh"
         print "        fi"                                                               >> "action.sh"
@@ -226,13 +217,9 @@ BEGIN { FS = ":" } ;
         print "            echo \"Stop motion program!\""                                >> "action.sh"
         print "            kill -9 $pid"                                                 >> "action.sh"
         print "            wait_for_motion_to_finish"                                    >> "action.sh"
-        print "            rm -f *.mp4 "                                                 >> "action.sh"
-        print "            movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                >> "action.sh"
         if ($19 > 0)
         {
-        print "            /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t "$19" -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file" >> "action.sh" 
-        print "            sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/" >> "action.sh"  
-        print "            handshake"                                                    >> "action.sh"
+        print "            record_movie "$19                                             >> "action.sh"
         }
         print "            break"                                                        >> "action.sh"
         print "        fi"                                                               >> "action.sh"
