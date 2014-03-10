@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 NEW_EMAIL_DIR="/home/hizatcix/Maildir/new"
 OLD_EMAIL_DIR="/home/hizatcix/Maildir/cur"
@@ -9,7 +9,7 @@ while true; do
 
 # look for empty dir 
     if [ "$(ls -A $NEW_EMAIL_DIR)" ]; then
-        echo "Take action $NEW_EMAIL_DIR is not Empty"
+        #echo "Take action $NEW_EMAIL_DIR is not Empty"
         #sleep 1
         rm -f $DMUX_DIR/email.log
         rm -f $DMUX_DIR/info.log

@@ -14,12 +14,12 @@ import logging
 def save_size_of_files_sent(size_video_files_, email_user_name_):
     dir_user_statistics = "/home/" + email_user_name_
     file_with_sent_file_size = dir_user_statistics + "/sent_file_size.txt"
-    print "bingo = " , file_with_sent_file_size
+    #print "bingo = " , file_with_sent_file_size
     if os.path.isfile(file_with_sent_file_size):
         f = open(file_with_sent_file_size)
         size_lines = f.readlines()
         f.close()
-        print "size_lines = " , size_lines
+        #print "size_lines = " , size_lines
         if len(size_lines) > 0:
             size_of_files_sent = size_lines[0].rstrip('\n')
             size_video_files_ += int(size_of_files_sent)
@@ -67,7 +67,7 @@ def main():
                     continue
     
                 cmd = 'rm -f ' + dir2check + '/read_finished.txt'
-                print "cmd = ", cmd
+                #print "cmd = ", cmd
                 os.system(cmd)
     
                 email = f2c_lines[EMAIL_LINE].split(" ")[2].rstrip('\n')
@@ -79,14 +79,15 @@ def main():
                          full_fname_jpg = dir2check + '/' + fname
                          size_video_files += os.path.getsize(full_fname_jpg)
                          cmd = 'mv ' + full_fname_jpg + ' ' + dir2email
-                         print "cmd = ", cmd
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          cmd = 'mv ' + file2check + ' ' + dir2email
-                         print "cmd = ", cmd
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          full_fname_email_jpg = dir2email + '/' + fname
                          cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
-                         print "cmd = ", cmd
+                         #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_jpg)
                 for fname in video_files:
@@ -94,19 +95,20 @@ def main():
                          full_fname_mp4 = dir2check + '/' + fname
                          size_video_files += os.path.getsize(full_fname_mp4)
                          cmd = 'mv ' + full_fname_mp4 + ' ' + dir2email
-                         print "cmd = ", cmd
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          cmd = 'mv ' + file2check + ' ' + dir2email
-                         print "cmd = ", cmd
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          full_fname_email_mp4 = dir2email + '/' + fname
                          cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
-                         print "cmd = ", cmd
+                         #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
+                         #print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_mp4)
                 # size in Kb
                 size_video_files >>= 10
-                print "Size in KB = " , size_video_files
+                #print "Size in KB = " , size_video_files
                 # remove the sent file created by email
                 files_sent = dir2email + "/sent"
                 if os.path.isfile(files_sent):
@@ -117,35 +119,37 @@ def main():
                 mail_dir = dir2email + "/Maildir"
                 if os.path.isdir(mail_dir):
                     mail_dir_size = compute_dir_size(mail_dir)
-                    print "MailDir size is = " , mail_dir_size
+                    #print "MailDir size is = " , mail_dir_size
                     if mail_dir_size > 10000:
                          cmd = 'su ' + user_name + ' -c \"mutt -s \\"mailcam wrong email from user ' + current_time + '\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
+                         #cmd = 'su root -c \"mutt -s \\"mailcam wrong email from user ' + current_time + '\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
                          os.system(cmd)
                          cmd = "rm -rf " + mail_dir
                          os.system(cmd)
-                         print "Maildir is removed"
+                         #print "Maildir is removed"
                          
                         
                 # remove the new_command.txt
                 if os.path.isfile(file2check):
                     if not os.path.isfile(file2check4email):
                         cmd = 'touch ' + file2check4email
-                        print "cmd = ", cmd
+                        #print "cmd = ", cmd
                         os.system(cmd)
                    
                     if not filecmp.cmp(file2check, file2check4email):
                         cmd = 'mv ' + file2check + ' ' + dir2email
-                        print "cmd = ", cmd
+                        #print "cmd = ", cmd
                         os.system(cmd)
                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -- ' + email + ' < ' + file2check4email + '\"'
-                        print "cmd = ", cmd
+                        #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -- ' + email + ' < ' + file2check4email + '\"'
+                        #print "cmd = ", cmd
                         os.system(cmd)
     
                 if os.path.isfile(file2check):
                     os.remove(file2check)
     
                 cmd = 'touch ' + dir2check + '/read_finished.txt'
-                print "cmd = ", cmd
+                #print "cmd = ", cmd
                 os.system(cmd)
 
 
