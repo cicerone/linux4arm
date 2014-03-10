@@ -23,13 +23,13 @@ def main():
     f = open("commands.log", "w")
     for email_line in email_lines:
         email_fields = email_line.split(":")
-        print "email_field 3 and 5", email_fields[EMAIL_ID_INDEX], email_fields[EMAIL_PSWD_INDEX]
+        #print "email_field 3 and 5", email_fields[EMAIL_ID_INDEX], email_fields[EMAIL_PSWD_INDEX]
         for password_line in password_lines:
             password_fields = password_line.split(":")
-            print "password_field 0 and 1", password_fields[PSWD_ID_INDEX], password_fields[PSWD_PSWD_INDEX]
+            #print "password_field 0 and 1", password_fields[PSWD_ID_INDEX], password_fields[PSWD_PSWD_INDEX]
             if email_fields[EMAIL_ID_INDEX] == password_fields[PSWD_ID_INDEX] and email_fields[EMAIL_PSWD_INDEX] == password_fields[PSWD_PSWD_INDEX]:
                 f.write(email_line)
-                print "BINGO"
+                #print "BINGO"
                 break
     f.close()
 

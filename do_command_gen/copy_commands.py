@@ -31,7 +31,7 @@ def main():
         if os.path.isdir(dir2copy) == False:
             os.makedirs(dir2copy)
      
-        print "directory to copy files = ", dir2copy
+        #print "directory to copy files = ", dir2copy
         f = open('info.log', "w")
         f.write(cmd_line)
         f.close();

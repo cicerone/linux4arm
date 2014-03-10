@@ -86,7 +86,6 @@ def main():
                          os.system(cmd)
                          full_fname_email_jpg = dir2email + '/' + fname
                          cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
-                         #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_jpg + ' -- ' + email + ' < ' + file2check4email + '\"'
                          #print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_jpg)
@@ -102,7 +101,6 @@ def main():
                          os.system(cmd)
                          full_fname_email_mp4 = dir2email + '/' + fname
                          cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
-                         #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -a ' + full_fname_email_mp4 + ' -- ' + email + ' < ' + file2check4email + '\"'
                          #print "cmd = ", cmd
                          os.system(cmd)
                          os.remove(full_fname_email_mp4)
@@ -122,7 +120,6 @@ def main():
                     #print "MailDir size is = " , mail_dir_size
                     if mail_dir_size > 10000:
                          cmd = 'su ' + user_name + ' -c \"mutt -s \\"mailcam wrong email from user ' + current_time + '\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
-                         #cmd = 'su root -c \"mutt -s \\"mailcam wrong email from user ' + current_time + '\\"  -- cicerone.mihalache@gmail.com < ' + file2check + '\"'
                          os.system(cmd)
                          cmd = "rm -rf " + mail_dir
                          os.system(cmd)
@@ -141,7 +138,6 @@ def main():
                         #print "cmd = ", cmd
                         os.system(cmd)
                         cmd = 'su ' + email_user_name + ' -c \"mutt -s \\"mailcam ' + current_time + '\\" -- ' + email + ' < ' + file2check4email + '\"'
-                        #cmd = 'su root -c \"mutt -s \\"mailcam ' + current_time + '\\" -- ' + email + ' < ' + file2check4email + '\"'
                         #print "cmd = ", cmd
                         os.system(cmd)
     
