@@ -2,8 +2,7 @@
 BEGIN { FS = ":" } ; 
 { 
     print "#!/bin/bash -x"                                                              >> "action.sh"
-    print "#bibi username " $3 " pswd " $5 " title " $7 " res0 " $9 " email " $11 " res1 " $13 " picnr " $15 " delay " $17 " movtime " $19 " res3 " $21 " hbeat " $23 " res4 " $25 " action " $27 " res5 " $29 >>  "action.sh"
-#:username:abcdefgh:pswd:12345678:title:Motion:res0:0:email:videos4linux@gmail.com:res1:0:picno:1:res2:0:movtime:10:res3:0:hbeat:0:res4:0:action:Start:res5:0:serialno:serial_nr.jpg:
+    print "#bibi username " $3 " pswd " $5 " title " $7 " res0 " $9 " email " $11 " res1 " $13 " picnr " $15 " delay " $17 " movtime " $19 " res3 " $21 " hbeat " $23 " resolution " $25 " action " $27 " res5 " $29 >>  "action.sh"
 
     print "UPDATE_DELAY=20"                                                             >> "action.sh"
     #print "UPDATE_DELAY=5"                                                             >> "action.sh"
@@ -37,8 +36,14 @@ BEGIN { FS = ":" } ;
     print "function record_movie() {"                                                    >> "action.sh"
     print "    rm -f *.mp4 "                                                             >> "action.sh"
     print "    movie_file=$(date +\"%m_%d_%Y_%H_%M_%S\").mp4"                            >> "action.sh"
-    print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $1 -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file "              >> "action.sh" 
-    #print "    /home/ubuntu/bin/ffmpeg -s 1920x1080 -f v4l2 -vcodec h264 -i /dev/video0 -copyinkf -vcodec copy -y -t $1 $movie_file " >> "action.sh"
+    if ($25 == "1920x1080")
+    {
+        print "    /home/ubuntu/bin/ffmpeg -s 1920x1080 -f v4l2 -vcodec h264 -i /dev/video0 -copyinkf -vcodec copy -y -t $1 $movie_file " >> "action.sh"
+    }
+    else 
+    {
+        print "    /home/ubuntu/bin/ffmpeg -f video4linux2 -s 320x240 -i /dev/video0 -c:v libx264 -t $1 -pix_fmt yuv420p -preset veryfast -tune fastdecode -profile:v baseline  -r 10 -me_range 4 -x264opts no-deblock $movie_file "              >> "action.sh" 
+    }
     print "    sshpass -p $CAM_PSWD scp $EVENTCAM_DIR/$movie_file $CAM_ID@$ESERVER_ID.mailcam.co:/home/$CAM_ID/"     >> "action.sh"  
     print "    handshake"                                                                >> "action.sh"
     print "    wait_for_video_device_release"                                            >> "action.sh"

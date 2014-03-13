@@ -21,6 +21,7 @@ def main():
     DELAY_ID      = 16
     MOVIE_TIME_ID = 18
     HEART_BEAT_ID = 22
+    RESOLUTION_ID = 24
     ACTION_ID     = 26
     
     for cmd_line in cmd_lines:
@@ -52,6 +53,7 @@ def main():
         seen_cmd = seen_cmd + "\nDelay = " + cmd_fields[DELAY_ID] + " s"
         seen_cmd = seen_cmd + "\nMovie Duration = " + cmd_fields[MOVIE_TIME_ID] + " s"
         seen_cmd = seen_cmd + "\nHeartBeat = " + cmd_fields[HEART_BEAT_ID] + " m"
+        seen_cmd = seen_cmd + "\nResolution = " + cmd_fields[RESOLUTION_ID]
         seen_cmd = seen_cmd + "\nAction = " + cmd_fields[ACTION_ID]
         seen_cmd = seen_cmd + "\n======="
         f.write(seen_cmd)
