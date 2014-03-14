@@ -11,7 +11,7 @@ import shutil
 
 # !!! Manually change this server name !!!
 #server_name = 'unalutus'
-server_name = 'amutrion'
+server_name = 'unalutus'
 
 
 f = open('user_pswd.txt')
