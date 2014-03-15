@@ -11,7 +11,7 @@ import shutil
 
 # !!! Manually change this server name !!!
 #flow_name = 'unalutus'
-flow_name = 'unalutus'
+flow_name = 'amutrion'
 
 
 f = open('user_pswd.txt')
